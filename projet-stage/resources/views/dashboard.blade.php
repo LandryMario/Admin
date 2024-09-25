@@ -85,7 +85,7 @@
     <!-- Brand Logo -->
     <a href="" class="brand-link">
       <img src="image/logo.png" alt="" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-light">JSAN</span>
+      <span class="brand-text font-weight-light">CO-JSAN</span>
     </a>
 
     <!-- Sidebar -->
@@ -138,53 +138,11 @@
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
+          </ul>
                with font-awesome or any other icon font library -->
-          <!-- <li class="nav-item menu-open">
-            <a href="dashboard" class="nav-link active">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
-              <p>
-                Listes des utilisateurs
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Antananarivo</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="" class="nav-link ">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Atsiranana</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="./index3.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Fianarantsoa</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="./index3.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Mahajanga</p>
-                </a>
-              </li>
-            </li>
-            <li class="nav-item">
-              <a href="./index3.html" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Toamasina</p>
-              </a>
-            <li class="nav-item">
-              <a href="./index3.html" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Toliara</p>
-              </a>
-            </ul>
-          </li> -->
+      
+            
+          
           <br>
           <li class="nav-item">
             <a href="dashboard" class="nav-link active">
@@ -261,7 +219,7 @@
                             
                             <td class="text-sm">
                                 <a  href="affichagemodifications/{{$user->id}}" class="btn btn-success text-sm">Modifier</a>
-                                <a href="{{route('suppression',['id'=>$user->id])}}" class="btn btn-danger text-sm">Supprimer</a>
+                                <!-- <a href="{{route('suppression',['id'=>$user->id])}}" class="btn btn-danger text-sm">Supprimer</a> -->
                             </td>
                         </tr>
                         @endforeach
@@ -283,8 +241,12 @@
       
           </ul>
         </div>
-             
-            
+           
+        
+        <footer class="main-footer">
+    <strong>Copyright &copy; 2024 <a href="dashboard">CO-JSAN</a>.</strong>
+    All rights reserved.
+  </footer>  
 
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">

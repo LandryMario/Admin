@@ -85,7 +85,7 @@
     <!-- Brand Logo -->
     <a href="" class="brand-link">
       <img src="image/logo.png" alt="" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-light">JSAN</span>
+      <span class="brand-text font-weight-light">CO-JSAN</span>
     </a>
 
     <!-- Sidebar -->
@@ -178,15 +178,14 @@
     <!-- Main content -->
     <section class="home-section">
    @yield('content')
-  </section>
-
-       
+  </section>       
         </div>
-
-      
           </ul>
         </div>
-             
+        <footer class="main-footer">
+        <strong>Copyright &copy; 2024 <a href="dashboard">CO-JSAN</a>.</strong>
+          All rights reserved.
+        </footer>  
             
 
   <!-- Control Sidebar -->
