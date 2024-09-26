@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Utilisateurs;
+use Illuminate\Support\Facades\DB;
 use Illuminate\support\Facades\Hash;
 
 class UtilisateurController extends Controller
@@ -17,29 +18,38 @@ class UtilisateurController extends Controller
     public function ajout(Request $request){ 
         try {
             $request->validate([
-                'im'=>'required',
-                'nom'=>'required',
-                'prenom'=>'required',
-                'mail'=>'required',
-                'appel'=>'required',
-                'tpi'=>'required',
-                'status'=>'required',
-                'mdp'=>'required',
+                'immatricule' => ['required', 'string', 'max:255'],
+                'name' => ['required', 'string', 'max:255'],
+                'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+                'Cour_appel' => ['required', 'string','max:255'],
+                'TPI' => ['required', 'string','max:255'],
+                'password' => ['required', 'confirmed'],
+                'usertype' => ['required']
+            ], [
+                'immatricule' => 'Le champ Immatriculation est requis',
+                'name' => 'Le champ Nom est requis, doit être une chaîne de caractères et ne doit pas dépasser 255 caractères.',
+                'email' => 'Le champ email est requis, doit être une chaîne de caractères, en minuscules.',
+                'Cour_appel' => 'Le champ Cour d\'appel est requis, doit être une chaîne de caractères, ne peut pas dépasser 255 caractères',
+                'TPI' => 'Le champ TPI est requis, doit être une chaîne de caractères et ne doit pas dépasser 255 caractères.',
+                'password' => 'Le champ mot de passe est requis, mot de passe ne correspond pas, ne respecte pas les critères de sécurité.'
             ]);
+    
             
             $user = new Utilisateurs();
-            $user ->immatriculation =$request ->im;
-            $user->nom =$request ->nom;
-            $user ->prenom =$request ->prenom;
-            $user ->email =$request ->mail;
-            $user ->appel =$request ->appel;
-            $user ->tribunal =$request ->tpi;
+            $user ->immatricule =$request ->immatricule;
+            $user->name =$request ->name;
+            $user ->email =$request ->email;
+            $user ->Cour_appel =$request ->Cour_appel;
+            $user ->TPI =$request ->TPI;
             $user ->status =$request ->status;
-            $user ->password =Hash::make($request->mdp);
+            $user ->password =Hash::make($request->password);
+            $user->usertype == 2;
+
             $user ->save();
             return redirect ('/dashboard');
+
         } catch (\Exception  $exception) {
-            throw new \exception ($exception->getMessage());
+            return redirect()->back()->with('error', 'Une erreur s\'est produite: ' . $exception->getMessage());
         }
 
     }
@@ -51,7 +61,7 @@ class UtilisateurController extends Controller
     public function dashboard()
 {
     // Mijery ny province an'ny mpampiasa ankehitriny
-    $tribunal = Auth::user()->tribunal;
+    $tribunal = Auth::user()->TPI;
 
     // Mampihatra ny fitiliana amin'ny province
     $listes = Utilisateurs::where('tribunal', $tribunal)->get();
@@ -65,25 +75,21 @@ class UtilisateurController extends Controller
     public function modifications(Request $request){
         try {
             $request->validate([
-                'id'=>'required',
-                'im'=>'required',
-                'nom'=>'required',
-                'prenom'=>'required',
-                'mail'=>'required',
-                'appel'=>'required',
-                'tpi'=>'required',
-                'status'=>'required',
-                'mdp'=>'required',
+                'immatricule' => ['required', 'string', 'max:255'],
+                'name' => ['required', 'string', 'max:255'],
+                'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+                'Cour_appel' => ['required', 'string','max:255'],
+                'TPI' => ['required', 'string','max:255'],
+                'password' => ['required', 'confirmed'],
             ]);
             $user =  Utilisateurs::find($request->id);
-            $user ->immatriculation =$request ->im;
-            $user->nom =$request ->nom;
-            $user ->prenom =$request ->prenom;
-            $user ->email =$request ->mail;
-            $user ->appel =$request ->appel;
-            $user ->tribunal =$request ->tpi;
+            $user ->immatricule =$request ->immatricule;
+            $user->name =$request ->name;
+            $user ->email =$request ->email;
+            $user ->Cour_appel =$request ->Cour_appel;
+            $user ->TPI =$request ->TPI;
             $user ->status =$request ->status;
-            $user ->password =Hash::make($request->mdp);
+            $user ->password =Hash::make($request->password);
             $user ->update();
             return redirect ('/dashboard');
         } catch (\Exception  $exception) {
@@ -98,15 +104,13 @@ class UtilisateurController extends Controller
      }
      /* pdf*/
      public function impression(){
-        // $listes = Utilisateurs::all(); 
-        // return view('pdf', compact('listes'));
         // Mijery ny province an'ny mpampiasa ankehitriny
-    $tribunal = Auth::user()->tribunal;
+        $tribunal = Auth::user()->TPI;
 
-    // Mampihatra ny fitiliana amin'ny province
-    $listes = Utilisateurs::where('tribunal', $tribunal)->get();
+        // Mampihatra ny fitiliana amin'ny province
+        $listes = Utilisateurs::where('tribunal', $tribunal)->get();
 
-    return view('pdf', ['listes' => $listes]);
+        return view('pdf', ['listes' => $listes]);
      }
 
      /* ***************suppression************/
@@ -120,8 +124,8 @@ class UtilisateurController extends Controller
 
 public function page()
 {
-    $page = User::select('appel', \DB::raw('count(*) as total'))
-        ->groupBy('appel')
+    $page = User::select('Cour_appel', DB::raw('count(*) as total'))
+        ->groupBy('Cour_appel')
         ->get();
 
     return view('page', ['page' => $page]);

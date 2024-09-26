@@ -10,18 +10,22 @@ class Utilisateurs extends Model
     use HasFactory;
 
     
-protected $table ='utilisateurs';
+protected $table ='users';
 
 protected $fillable =[
-    'immatriculation',
-    'nom',
-    'prenom',
+    'immatricule',
+    'name',
     'email',
-    'appel',
-    'tribunal',
+    'Cour_appel',
+    'TPI',
     'password',
     'status',
 
 ];
+
+protected $casts = [
+    'status' => 'boolean',
+];
+
 }
 /*********************************************************************************/

@@ -1,168 +1,132 @@
+<x-guest-layout>
+  <form method="POST" action="{{ route('register') }}">
+      @csrf
 
-  <!-- Google Font: Source Sans Pro -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
-  <!-- summernote -->
-  <link rel="stylesheet" href="../../plugins/summernote/summernote-bs4.min.css">
-  <!-- CodeMirror -->
-  <link rel="stylesheet" href="../../plugins/codemirror/codemirror.css">
-  <link rel="stylesheet" href="../../plugins/codemirror/theme/monokai.css">
-  <!-- SimpleMDE -->
-  <link rel="stylesheet" href="../../plugins/simplemde/simplemde.min.css">
-@extends('header')
-@section('content')
+      <!-- Immatriculation -->
+      <div>
+          <x-input-label for="immatriculation" :value="__('Immatriculation')" />
+          <x-text-input id="immatriculation" class="block mt-1 w-full" type="text" name="immatriculation" :value="old('immatriculation')" required autofocus autocomplete="immatriculation" />
+          <x-input-error :messages="$errors->get('immatriculation')" class="mt-2" />
+      </div>
 
-<body class="hold-transition sidebar-mini"> 
+      <!-- Name -->
+      <div>
+          <x-input-label for="name" :value="__('Nom')" />
+          <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
+          <x-input-error :messages="$errors->get('name')" class="mt-2" />
+      </div>
 
-<section class="content">
-<div class="container-fluid">
-  <div class="card card-default">
-  <form action="/ajouter" method="Post">
-        @csrf
-        <div class="row">
-          <div class="col-md-6" id="im">
-            <div class="form-group">
-              <label> Immatriculation:</label>
+      <!-- Email Address -->
+      <div class="mt-4">
+          <x-input-label for="email" :value="__('Email')" />
+          <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
+          <x-input-error :messages="$errors->get('email')" class="mt-2" />
+      </div>
 
-              <div class="input-group">
-                <div class="input-group-prepend">
-                  <span class="input-group-text"> <i class="fas fa-user"></i></span>
-                </div>
-                <input type="text" name="im" class="form-control rounded" placeholder="Immatriculation:" data-mask /><br>
+       <!-- Cour_appel -->
+       <div>
+          <x-input-label for="cour_appel" :value="__('Cour_appel')" />
+          <select name="Cour_appel" id="cour_appel" class="block mt-2 w-full rounded-md border-gray-300" :value="old('cour_appel')" required autofocus onchange="updateTPIOptions()">
+              <option value=""></option>
+              <option value="ANTANANARIVO">ANTANANARIVO</option>
+              <option value="ANTSIRANANA">ANTSIRANANA</option>
+              <option value="FIANARANTSOA">FIANARANTSOA</option>
+              <option value="MAHAJANGA">MAHAJANGA</option>
+              <option value="TOAMASINA">TOAMASINA</option>
+              <option value="TOLIARA">TOLIARA</option>
+          </select>
+          <x-input-error :messages="$errors->get('cour_appel')" class="mt-2" />
+      </div>
+       <!-- TPI -->
+      <div>
+          <x-input-label for="TPI" :value="__('TPI')" />
+          <select name="TPI" id="TPI" class="block mt-2 w-full rounded-md border-gray-300" :value="old('TPI')" required autofocus>
+              <option value=""></option>
+              
+          </select>
+          <x-input-error :messages="$errors->get('TPI')" class="mt-2" />
+      </div>
           
-              </div>
-            </div>
-            <div class="form-group">
-              <label> Nom:</label>
+      <!-- Password -->
+      <div class="mt-4">
+          <x-input-label for="password" :value="__('Mot de passe')" />
 
-              <div class="input-group">
-                <div class="input-group-prepend">
-                  <span class="input-group-text"> <i class="fas fa-user"></i></span>
-                </div>
-                <input type="text" name="nom" class="form-control rounded" placeholder="Nom:" data-mask /><br>
-          
-              </div>
-            </div>
-            <div class="form-group">
-              <label> Prénom:</label>
+          <x-text-input id="password" class="block mt-1 w-full"
+                          type="password"
+                          name="password"
+                          required autocomplete="new-password" />
 
-              <div class="input-group">
-                <div class="input-group-prepend">
-                  <span class="input-group-text"> <i class="fas fa-user"></i></span>
-                </div>
-                <input type="text" name="prenom" class="form-control rounded" placeholder="Prénom:" data-mask /><br>
-          
-              </div>
-            </div>
+          <x-input-error :messages="$errors->get('password')" class="mt-2" />
+      </div>
 
-            <div class="form-group">
-              <label> Adresse e-mail:</label>
+      <!-- Confirm Password -->
+      <div class="mt-4">
+          <x-input-label for="password_confirmation" :value="__('Confirmation Mot de passe')" />
 
-              <div class="input-group">
-                <div class="input-group-prepend">
-                  <span class="input-group-text"> <i class="fas fa-home"></i></span>
-                </div>
-                <input type="email" name="mail" class="form-control rounded" placeholder="Adresse e-mail:" data-mask /><br>
-          
-              </div>
-            </div>
+          <x-text-input id="password_confirmation" class="block mt-1 w-full"
+                          type="password"
+                          name="password_confirmation" required autocomplete="new-password" />
 
+          <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+      </div>
 
-          </div>
-          <div class="col-md-6">
-            <div class="form-group">
-              <label> Cour d'Appel:</label>
+      <div class="flex items-center justify-end mt-4">
 
-              <div class="input-group">
-                <div class="input-group-prepend">
-                  <span class="input-group-text"> <i class="fas fa-home"></i></span>
-                </div>
-                <input type="text" name="appel" class="form-control rounded" value="{{ Auth::user()->appel }}" /><br>
-              </div>
-            </div>
-            <div class="form-group">
-              <label> Tribunal:</label>
-
-              <div class="input-group">
-                <div class="input-group-prepend">
-                  <span class="input-group-text"> <i class="fas fa-home"></i></span>
-                </div>
-                <input type="text" name="tpi" class="form-control rounded" value="{{Auth::user()->tribunal}}"  /><br>
-          
-              </div>
-            </div>
-            <div class="form-group">
-              <label> Status:</label>
-
-              <div class="input-group">
-                <div class="input-group-prepend">
-                  <!-- <span class="input-group-text"> <i class="fas fa-number"></i></span> -->
-                </div>
-                <input type="number" name="status" class="form-control rounded" placeholder="Status:" data-mask /><br>
-          
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label> Mot de passe:</label>
-
-              <div class="input-group">
-                <div class="input-group-prepend">
-                  <!-- <span class="input-group-text"> <i class="fas fa-password"></i></span> -->
-                </div>
-                <input type="password" name="mdp" class="form-control rounded " placeholder="Mot de passe:" data-mask /><br>
-          
-              </div>
-            </div>
-
-
-          </div>
-          
-        </div>
-
-
-        <button type="submit" class="btn btn-success col fileinput-button" value="">
-        <i class="fas fa-plus"></i>  
-        <span>Enregistrer</span>
-        </button> 
+          <x-primary-button class="ms-4">
+              {{ __('Ajouter') }}
+          </x-primary-button>
+      </div>
   </form>
+</x-guest-layout>
 
-
-  </div>
-</div>
-</section>
-  
-</body>
-
-@endsection
-<!-- jQuery -->
-<script src="../../plugins/jquery/jquery.min.js"></script>
-<!-- Bootstrap 4 -->
-<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- AdminLTE App -->
-<script src="../../dist/js/adminlte.min.js"></script>
-<!-- Summernote -->
-<script src="../../plugins/summernote/summernote-bs4.min.js"></script>
-<!-- CodeMirror -->
-<script src="../../plugins/codemirror/codemirror.js"></script>
-<script src="../../plugins/codemirror/mode/css/css.js"></script>
-<script src="../../plugins/codemirror/mode/xml/xml.js"></script>
-<script src="../../plugins/codemirror/mode/htmlmixed/htmlmixed.js"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="../../dist/js/demo.js"></script>
-<!-- Page specific script -->
 <script>
-  $(function () {
-    // Summernote
-    $('#summernote').summernote()
+  const tpiOptions = {
+      "ANTANANARIVO": [
+          "TPI AMBATOLAMPY", "TPI ANKAZOBE", "TPI ANTANANARIVO", "TPI ANTSIRABE",
+          "TPI ARIVONIMAMO", "TPI AVARADRANO", "TPI MIARINARIVO", "TPI TSIROANOMANDIDY"
+      ],
+      "ANTSIRANANA": [
+          "TPI AMBANJA", "TPI AMBILOBE", "TPI ANTALAHA", "TPI ANTSIRANANA", 
+          "TPI NOSY BE", "TPI SAMBAVA"
+      ],
+      "FIANARANTSOA": [
+          "TPI AMBOSITRA", "TPI FARAFANGANA", "TPI FIANARANTSOA", "TPI IHOSY", 
+          "TPI IKONGO", "TPI MANAKARA", "TPI MANANJARY", "TPI VANGAINDRANO"
+      ],
+      "MAHAJANGA": [
+          "TPI ANALALAVA", "TPI ANTSOHIHY", "TPI BESALAMPY", "TPI BORIZINY", 
+          "TPI MAEVATANANA", "TPI MAHAJANGA", "TPI MAINTIRANO", "TPI MAMPIKONY", 
+          "TPI MANDRITSARA"
+      ],
+      "TOAMASINA": [
+          "TPI AMBATONDRAZAKA", "TPI FENOARIVO ATSINANANA", "TPI MAROANTSETRA", 
+          "TPI MORAMANGA", "TPI SAINTE-MARIE", "TPI TOAMASINA", "TPI VATOMANDRY"
+      ],
+      "TOLIARA": [
+          "TPI AMBOVOMBE", "TPI AMPANIHY", "TPI ANKAZOABO ATSIMO", "TPI BELO-SUR-TSIRIBIHINA", 
+          "TPI BETROKA", "TPI MIANDRIVAZO", "TPI MOROMBE", "TPI MORONDAVA", 
+          "TPI TOLAGNARO", "TPI TOLIARA"
+      ]
+  };
 
-    // CodeMirror
-    CodeMirror.fromTextArea(document.getElementById("codeMirrorDemo"), {
-      mode: "htmlmixed",
-      theme: "monokai"
-    });
-  })
+
+  // function pour generer automatiquement les TPI dans chaque cour_appel
+
+  function updateTPIOptions() {
+      const courAppel = document.getElementById("cour_appel").value;
+      const tpiSelect = document.getElementById("TPI");
+
+      // Effacer les anciennes options
+      tpiSelect.innerHTML = '<option value=""></option>';
+
+      // Si une cour d'appel est sélectionnée, ajouter les TPI associés
+      if (courAppel && tpiOptions[courAppel]) {
+          tpiOptions[courAppel].forEach(tpi => {
+              const option = document.createElement("option");
+              option.value = tpi;
+              option.textContent = tpi;
+              tpiSelect.appendChild(option);
+          });
+      }
+  }
 </script>

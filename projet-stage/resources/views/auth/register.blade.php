@@ -11,30 +11,35 @@
 
         <!-- Email Address -->
         <div class="mt-4">
-            <x-input-label for="email" :value="__('Adresse e-mail')" />
+            <x-input-label for="email" :value="__('Email')" />
             <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
-                  <!-- Province -->
-                  <div>
-            <x-input-label for="appel" :value="__('Cour d\'appel')" />
-            <select id="appel" class="block mt-1 w-full rounded-md border-gray-300" name="appel" placeholder="Sélectionnez une province" required autofocus>
-                <option value=""></option>
-                <option value="Antananarivo" >Antananarivo</option>
-                <option value="Antsiranana">Antsiranana</option>
-                <option value="Fianarantsoa">Fianarantsoa</option>
-                <option value="Mahajanga">Mahajanga</option>
-                <option value="Toamasina">Toamasina</option>
-                <option value="Toliara" >Toliara</option>
-            </select>
-            <x-input-error :messages="$errors->get('appel')" class="mt-2" />
-        </div>
-         <!-- Tribunal -->
+
+         <!-- Cour_appel -->
          <div>
-            <x-input-label for="tribunal" :value="__('Tribunal')" />
-            <x-text-input id="tribunal" class="block mt-1 w-full" type="text" name="tribunal" :value="old('tribunal')" required autofocus autocomplete="tribunal" />
-            <x-input-error :messages="$errors->get('tribunal')" class="mt-2" />
+            <x-input-label for="Cour_appel" :value="__('Cour_appel')" />
+            <select name="Cour_appel" id="cour_appel" class="block mt-2 w-full rounded-md border-gray-300" :value="old('Cour_appel')" required autofocus onchange="updateTPIOptions()">
+                <option value=""></option>
+                <option value="ANTANANARIVO">ANTANANARIVO</option>
+                <option value="ANTSIRANANA">ANTSIRANANA</option>
+                <option value="FIANARANTSOA">FIANARANTSOA</option>
+                <option value="MAHAJANGA">MAHAJANGA</option>
+                <option value="TOAMASINA">TOAMASINA</option>
+                <option value="TOLIARA">TOLIARA</option>
+            </select>
+            <x-input-error :messages="$errors->get('Cour_appel')" class="mt-2" />
         </div>
+         <!-- TPI -->
+        <div>
+            <x-input-label for="TPI" :value="__('TPI')" />
+            <select name="TPI" id="TPI" class="block mt-2 w-full rounded-md border-gray-300" :value="old('TPI')" required autofocus>
+                <option value=""></option>
+                
+            </select>
+            <x-input-error :messages="$errors->get('TPI')" class="mt-2" />
+        </div>
+            
         <!-- Password -->
         <div class="mt-4">
             <x-input-label for="password" :value="__('Mot de passe')" />
@@ -49,7 +54,7 @@
 
         <!-- Confirm Password -->
         <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirmer le mot de passe')" />
+            <x-input-label for="password_confirmation" :value="__('Confirmation Mot de passe')" />
 
             <x-text-input id="password_confirmation" class="block mt-1 w-full"
                             type="password"
@@ -60,12 +65,64 @@
 
         <div class="flex items-center justify-end mt-4">
             <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
-                {{ __('Déjà enregistré ?') }}
+                {{ __('Déjà inscrit ?') }}
             </a>
 
             <x-primary-button class="ms-4">
-                {{ __('Inscription') }}
+                {{ __('Inscrire') }}
             </x-primary-button>
         </div>
     </form>
 </x-guest-layout>
+
+<script>
+    const tpiOptions = {
+        "ANTANANARIVO": [
+            "TPI AMBATOLAMPY", "TPI ANKAZOBE", "TPI ANTANANARIVO", "TPI ANTSIRABE",
+            "TPI ARIVONIMAMO", "TPI AVARADRANO", "TPI MIARINARIVO", "TPI TSIROANOMANDIDY"
+        ],
+        "ANTSIRANANA": [
+            "TPI AMBANJA", "TPI AMBILOBE", "TPI ANTALAHA", "TPI ANTSIRANANA", 
+            "TPI NOSY BE", "TPI SAMBAVA"
+        ],
+        "FIANARANTSOA": [
+            "TPI AMBOSITRA", "TPI FARAFANGANA", "TPI FIANARANTSOA", "TPI IHOSY", 
+            "TPI IKONGO", "TPI MANAKARA", "TPI MANANJARY", "TPI VANGAINDRANO"
+        ],
+        "MAHAJANGA": [
+            "TPI ANALALAVA", "TPI ANTSOHIHY", "TPI BESALAMPY", "TPI BORIZINY", 
+            "TPI MAEVATANANA", "TPI MAHAJANGA", "TPI MAINTIRANO", "TPI MAMPIKONY", 
+            "TPI MANDRITSARA"
+        ],
+        "TOAMASINA": [
+            "TPI AMBATONDRAZAKA", "TPI FENOARIVO ATSINANANA", "TPI MAROANTSETRA", 
+            "TPI MORAMANGA", "TPI SAINTE-MARIE", "TPI TOAMASINA", "TPI VATOMANDRY"
+        ],
+        "TOLIARA": [
+            "TPI AMBOVOMBE", "TPI AMPANIHY", "TPI ANKAZOABO ATSIMO", "TPI BELO-SUR-TSIRIBIHINA", 
+            "TPI BETROKA", "TPI MIANDRIVAZO", "TPI MOROMBE", "TPI MORONDAVA", 
+            "TPI TOLAGNARO", "TPI TOLIARA"
+        ]
+    };
+
+
+    // function pour generer automatiquement les TPI dans chaque cour_appel
+
+    function updateTPIOptions() {
+        const courAppel = document.getElementById("cour_appel").value;
+        const tpiSelect = document.getElementById("TPI");
+
+        // Effacer les anciennes options
+        tpiSelect.innerHTML = '<option value=""></option>';
+
+        // Si une cour d'appel est sélectionnée, ajouter les TPI associés
+        if (courAppel && tpiOptions[courAppel]) {
+            tpiOptions[courAppel].forEach(tpi => {
+                const option = document.createElement("option");
+                option.value = tpi;
+                option.textContent = tpi;
+                tpiSelect.appendChild(option);
+            });
+        }
+    }
+</script>

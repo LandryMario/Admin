@@ -32,8 +32,8 @@ class RegisteredUserController extends Controller
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-            'appel' =>['required','string','max:255'],
-            'tribunal' =>['required','string','max:255'],
+            'Cour_appel' =>['required','string','max:255'],
+            'TPI' =>['required','string','max:255'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
 
         ]);
@@ -41,9 +41,10 @@ class RegisteredUserController extends Controller
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'appel'=>$request->appel,
-            'tribunal'=>$request->tribunal,
+            'Cour_appel'=>$request->Cour_appel,
+            'TPI'=>$request->TPI,
             'password' => Hash::make($request->password),
+            'usertype' => 1
             
         ]);
 
@@ -51,6 +52,7 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect(route('dashboard', absolute: false));
+        dd($request->all());
+        // return redirect(route('dashboard', absolute: false));
     }
 }
