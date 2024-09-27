@@ -64,7 +64,7 @@ class UtilisateurController extends Controller
     $tribunal = Auth::user()->TPI;
 
     // Mampihatra ny fitiliana amin'ny province
-    $listes = Utilisateurs::where('tribunal', $tribunal)->get();
+    $listes = Utilisateurs::where('TPI', $tribunal)->get();
 
     return view('dashboard', ['listes' => $listes]);
 }
@@ -88,7 +88,6 @@ class UtilisateurController extends Controller
             $user ->email =$request ->email;
             $user ->Cour_appel =$request ->Cour_appel;
             $user ->TPI =$request ->TPI;
-            $user ->status =$request ->status;
             $user ->password =Hash::make($request->password);
             $user ->update();
             return redirect ('/dashboard');
@@ -108,7 +107,7 @@ class UtilisateurController extends Controller
         $tribunal = Auth::user()->TPI;
 
         // Mampihatra ny fitiliana amin'ny province
-        $listes = Utilisateurs::where('tribunal', $tribunal)->get();
+        $listes = Utilisateurs::where('TPI', $tribunal)->get();
 
         return view('pdf', ['listes' => $listes]);
      }

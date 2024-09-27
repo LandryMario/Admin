@@ -29,13 +29,13 @@
       <span class="nav-link">Cour d'Appel:</span>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-      <span class="nav-link">{{Auth::user()->appel}}</span>
+      <span class="nav-link">{{Auth::user()->Cour_appel}}</span>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
       <span class="nav-link">Tribunal:</span>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-      <span class="nav-link">{{Auth::user()->tribunal}}</span>
+      <span class="nav-link">{{Auth::user()->TPI}}</span>
       </li>
     </ul>
 
@@ -97,7 +97,7 @@
             <div class="text-center">
             <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="image/mario.jpeg" class="img-circle elevation-2" alt="">
+          <i class="fas fa-user" ></i>
         </div>
         <div class="info">
           <a href="{{route('profile.edit')}}" class="d-block">{{Auth::user()->name}}</a>
@@ -120,29 +120,13 @@
         </div>
      
      
-    
-
-      <!-- SidebarSearch Form -->
-      <!-- <div class="form-inline">
-        <div class="input-group" data-widget="sidebar-search">
-          <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
-          <div class="input-group-append">
-            <button class="btn btn-sidebar">
-              <i class="fas fa-search fa-fw"></i>
-            </button>
-          </div>
-        </div>
-      </div> -->
 
       <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
-          </ul>
-               with font-awesome or any other icon font library -->
-      
-            
-          
+            with font-awesome or any other icon font library -->
+          {{-- </ul> --}}
           <br>
           <li class="nav-item">
             <a href="dashboard" class="nav-link active">
@@ -198,9 +182,8 @@
                         <tr>
                             <th class="text-sm">Immatriculation</th>
                             <th class="text-sm">Nom</th>
-                            <th class="text-sm">Prénom</th>
-                            <th class="text-sm">Adresse e-mail </th>
-                            <th class="text-sm">Cour d'Appel </th>
+                            <th class="text-sm">E-mail </th>
+                            <th class="text-sm">Cour d'Appel</th>
                             <th class="text-sm">Tribunal</th>
                             <th class="text-sm">Status</th>
                             <th class="text-sm">Action</th>
@@ -209,12 +192,11 @@
                     <tbody>
                         @foreach($listes as $user)
                         <tr>
-                            <td class="text-sm">{{$user->immatriculation}}</td>
-                            <td class="text-sm">{{$user->nom}}</td>
-                            <td class="text-sm">{{$user->prenom}}</td>
+                            <td class="text-sm">{{$user->immatricule}}</td>
+                            <td class="text-sm">{{$user->name}}</td>
                             <td class="text-sm">{{$user->email}}</td>
-                            <td class="text-sm">{{$user->appel}}</td>
-                            <td class="text-sm">{{$user->tribunal}}</td>
+                            <td class="text-sm">{{$user->Cour_appel}}</td>
+                            <td class="text-sm">{{$user->TPI}}</td>
                             <td class="text-sm">{{$user->status}}</td>
                             
                             <td class="text-sm">
@@ -277,7 +259,7 @@
 <script src="{{asset('plugins/chart.js/Chart.min.js')}}"></script>
 
 <!-- AdminLTE for demo purposes -->
-<script src="{{asset('dist/js/demo.js')}}"></script>
+{{-- <script src="{{asset('dist/js/demo.js')}}"></script> --}}
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="{{asset ('dist/js/pages/dashboard2.js')}}"></script>
 

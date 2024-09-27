@@ -18,8 +18,8 @@
 
          <!-- Cour_appel -->
          <div>
-            <x-input-label for="Cour_appel" :value="__('Cour_appel')" />
-            <select name="Cour_appel" id="cour_appel" class="block mt-2 w-full rounded-md border-gray-300" :value="old('Cour_appel')" required autofocus onchange="updateTPIOptions()">
+            <x-input-label for="Cour_appel" :value="__('Cour d\'appel')" />
+            <select name="Cour_appel" id="Cour_appel" class="block mt-2 w-full rounded-md border-gray-300" :value="old('Cour_appel')" required autofocus onchange="updateTPIOptions()">
                 <option value=""></option>
                 <option value="ANTANANARIVO">ANTANANARIVO</option>
                 <option value="ANTSIRANANA">ANTSIRANANA</option>
@@ -109,7 +109,7 @@
     // function pour generer automatiquement les TPI dans chaque cour_appel
 
     function updateTPIOptions() {
-        const courAppel = document.getElementById("cour_appel").value;
+        const courAppel = document.getElementById("Cour_appel").value;
         const tpiSelect = document.getElementById("TPI");
 
         // Effacer les anciennes options

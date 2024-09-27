@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -9,6 +10,10 @@ Use App\Http\Controllers\UtilisateurController;
 Route::get('/', function () {
     return view('welcome');
     // return view('auth.login');
+});
+
+Route::middleware(['AdminMiddleware'])->group(function () {
+    Route::get('/admin', [RegisteredUserController::class, 'store']);
 });
 
 Route::get('/dashboard', function () {
@@ -32,7 +37,6 @@ Route::post('/modifier',[UtilisateurController::class,'modifications']);
 Route::get('/affichagemodifications/{id?}',[UtilisateurController::class,'dashboardmod']);
 Route::get('/pdf', [UtilisateurController::class,'impression']);
 Route::get('/suppression/{id}',[UtilisateurController::class,'supprimer'])->name('suppression');
-route::get('/admin/dashboard', [UserController::class, 'index'])->middleware('admin');
 /**********************statistique*********************************/
 Route::get('/page', [UtilisateurController::class,'page'])->name('page');
 Route::get('/unauthorized', function () {
