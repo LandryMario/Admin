@@ -28,6 +28,11 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
+        if(Auth::user()->usertype != 1){
+            Auth::logout();
+            return redirect('/unauthorized')->with('error', 'Vous n\'etes pas autorisé à vous connecter');
+        }
+
         return redirect()->intended(route('dashboard', absolute: false));
     }
 

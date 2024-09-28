@@ -14,8 +14,8 @@ protected $table ='users';
 protected $fillable =[
     'name',
     'email',
-    'appel',
-    'tribunal',
+    'Cour_appel',
+    'TPI',
     'password',
    
 

@@ -12,10 +12,6 @@ Route::get('/', function () {
     // return view('auth.login');
 });
 
-Route::middleware(['AdminMiddleware'])->group(function () {
-    Route::get('/admin', [RegisteredUserController::class, 'store']);
-});
-
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -30,15 +26,19 @@ Route::middleware('auth')->group(function () {
 });
 
 /******************** création utilisateur************************/
-Route::get('/nouveau',[UtilisateurController::class,'utilisateur']);
-Route::post('/ajouter',[UtilisateurController::class,'ajout']);
-Route::get('/dashboard', [UtilisateurController::class, 'dashboard'])->name('dashboard');
+Route::get('/nouveau',[UtilisateurController::class,'index']);
+
+Route::post('/ajouter',[UtilisateurController::class,'ajout'])->name('nouveau');
+
+Route::get('/return_dashboard', [UtilisateurController::class, 'listeUtilisateur'])->name('dashboard');
+
 Route::post('/modifier',[UtilisateurController::class,'modifications']);
 Route::get('/affichagemodifications/{id?}',[UtilisateurController::class,'dashboardmod']);
 Route::get('/pdf', [UtilisateurController::class,'impression']);
 Route::get('/suppression/{id}',[UtilisateurController::class,'supprimer'])->name('suppression');
 /**********************statistique*********************************/
 Route::get('/page', [UtilisateurController::class,'page'])->name('page');
+
 Route::get('/unauthorized', function () {
     return view('unauthorized'); // Crée la vue correspondante
 });

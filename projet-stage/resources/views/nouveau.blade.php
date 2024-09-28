@@ -1,12 +1,12 @@
 <x-guest-layout>
-  <form method="POST" action="{{ route('register') }}">
+  <form method="POST" action="{{ route('nouveau') }}">
       @csrf
 
       <!-- Immatriculation -->
       <div>
-          <x-input-label for="immatriculation" :value="__('Immatriculation')" />
-          <x-text-input id="immatriculation" class="block mt-1 w-full" type="text" name="immatriculation" :value="old('immatriculation')" required autofocus autocomplete="immatriculation" />
-          <x-input-error :messages="$errors->get('immatriculation')" class="mt-2" />
+          <x-input-label for="immatricule" :value="__('Immatriculation')" />
+          <x-text-input id="immatricule" class="block mt-1 w-full" type="text" name="immatricule" :value="old('immatricule')" required autofocus autocomplete="immatriculation" />
+          <x-input-error :messages="$errors->get('immatricule')" class="mt-2" />
       </div>
 
       <!-- Name -->
@@ -19,14 +19,14 @@
       <!-- Email Address -->
       <div class="mt-4">
           <x-input-label for="email" :value="__('Email')" />
-          <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
+          <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="email" />
           <x-input-error :messages="$errors->get('email')" class="mt-2" />
       </div>
 
        <!-- Cour_appel -->
        <div>
-          <x-input-label for="cour_appel" :value="__('Cour_appel')" />
-          <select name="Cour_appel" id="cour_appel" class="block mt-2 w-full rounded-md border-gray-300" :value="old('cour_appel')" required autofocus onchange="updateTPIOptions()">
+          <x-input-label for="Cour_appel" :value="__('Cour d\'appel')" />
+          <select name="Cour_appel" id="Cour_appel" class="block mt-2 w-full rounded-md border-gray-300" :value="old('Cour_appel')" required autofocus onchange="updateTPIOptions()">
               <option value=""></option>
               <option value="ANTANANARIVO">ANTANANARIVO</option>
               <option value="ANTSIRANANA">ANTSIRANANA</option>
@@ -35,7 +35,7 @@
               <option value="TOAMASINA">TOAMASINA</option>
               <option value="TOLIARA">TOLIARA</option>
           </select>
-          <x-input-error :messages="$errors->get('cour_appel')" class="mt-2" />
+          <x-input-error :messages="$errors->get('Cour_appel')" class="mt-2" />
       </div>
        <!-- TPI -->
       <div>
@@ -113,7 +113,7 @@
   // function pour generer automatiquement les TPI dans chaque cour_appel
 
   function updateTPIOptions() {
-      const courAppel = document.getElementById("cour_appel").value;
+      const courAppel = document.getElementById("Cour_appel").value;
       const tpiSelect = document.getElementById("TPI");
 
       // Effacer les anciennes options

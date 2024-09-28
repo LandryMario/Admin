@@ -8,7 +8,7 @@
 </head>
 <body>
     <div>
-        <h1>Vous n'êtes pas autorisé  à entrée dans ce page</h1>
+        <h1>Vous n'êtes pas autorisé  à entrée dans cette page d'admin</h1>
     </div>
 </body>
 </html>

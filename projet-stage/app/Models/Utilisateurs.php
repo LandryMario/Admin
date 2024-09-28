@@ -19,6 +19,7 @@ protected $fillable =[
     'Cour_appel',
     'TPI',
     'password',
+    'usertype',
     'status',
 
 ];

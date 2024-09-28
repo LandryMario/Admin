@@ -160,7 +160,7 @@
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="pdf">Copier/Excel/PDF/...</a></li>
+              <li class="breadcrumb-item"><a href="pdf">Exportation</a></li>
               <li class="breadcrumb-item active">Listes des Utilisateurs</li>
             </ol>
           </div>
@@ -182,7 +182,7 @@
                         <tr>
                             <th class="text-sm">Immatriculation</th>
                             <th class="text-sm">Nom</th>
-                            <th class="text-sm">E-mail </th>
+                            <th class="text-sm">E-mail</th>
                             <th class="text-sm">Cour d'Appel</th>
                             <th class="text-sm">Tribunal</th>
                             <th class="text-sm">Status</th>

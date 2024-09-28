@@ -14,6 +14,15 @@
                     <div class="p-6 text-gray-900">
                 
                     <form action="/modifier" method="Post">
+                        @if ($errors->any())
+                        <div class="alert alert-danger">
+                          <ul>
+                            @foreach ($errors->all() as $error)
+                              <li>{{ $error }}</li>
+                            @endforeach
+                          </ul>
+                        </div>
+                      @endif
         @csrf
                         
         <label for="immatricule">Immatricule:</label>

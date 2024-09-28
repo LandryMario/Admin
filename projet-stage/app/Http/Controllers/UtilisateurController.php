@@ -11,7 +11,7 @@ use Illuminate\support\Facades\Hash;
 
 class UtilisateurController extends Controller
 {
-    public function utilisateur(){
+    public function index(){
         return view ('nouveau');
     }
     /* code ajout utilisateur*/
@@ -43,8 +43,8 @@ class UtilisateurController extends Controller
             $user ->TPI =$request ->TPI;
             $user ->status =$request ->status;
             $user ->password =Hash::make($request->password);
-            $user->usertype == 2;
-
+            $user->usertype = 2;
+            dd($user);
             $user ->save();
             return redirect ('/dashboard');
 
@@ -54,20 +54,16 @@ class UtilisateurController extends Controller
 
     }
     /***********************affichage des liste************************/
-    // public function dashboard(){
-    //     $listes= Utilisateurs::all();
-    //     return view ('dashboard', ['listes'=>$listes]);
-    // }
-    public function dashboard()
-{
+    public function listeUtilisateur()
+    {
     // Mijery ny province an'ny mpampiasa ankehitriny
-    $tribunal = Auth::user()->TPI;
+    $TPI = Auth::user()->TPI;
 
     // Mampihatra ny fitiliana amin'ny province
-    $listes = Utilisateurs::where('TPI', $tribunal)->get();
+    $listes = Utilisateurs::where('TPI', $TPI)->get();
 
     return view('dashboard', ['listes' => $listes]);
-}
+    }
 
 
     /**********************modifications des utilisateurs*************/
@@ -81,18 +77,33 @@ class UtilisateurController extends Controller
                 'Cour_appel' => ['required', 'string','max:255'],
                 'TPI' => ['required', 'string','max:255'],
                 'password' => ['required', 'confirmed'],
+            ],[
+                'immatricule' => 'Le champ Immatriculation est requis',
+                'name' => 'Le champ Nom est requis, doit être une chaîne de caractères et ne doit pas dépasser 255 caractères.',
+                'email' => 'Le champ email est requis, doit être une chaîne de caractères, en minuscules.',
+                'Cour_appel' => 'Le champ Cour d\'appel est requis, doit être une chaîne de caractères, ne peut pas dépasser 255 caractères',
+                'TPI' => 'Le champ TPI est requis, doit être une chaîne de caractères et ne doit pas dépasser 255 caractères.',
+                'password' => 'Le champ mot de passe est requis, mot de passe ne correspond pas, ne respecte pas les critères de sécurité.'
             ]);
-            $user =  Utilisateurs::find($request->id);
+
+
+            $user = Utilisateurs::find($request->id);
+            if (!$user) {
+                return redirect()->back()->with('error', 'Utilisateur introuvable.');
+            }
+
+            // $user =  Utilisateurs::find($request->id);
             $user ->immatricule =$request ->immatricule;
             $user->name =$request ->name;
             $user ->email =$request ->email;
             $user ->Cour_appel =$request ->Cour_appel;
             $user ->TPI =$request ->TPI;
             $user ->password =Hash::make($request->password);
-            $user ->update();
+            $user ->save();
             return redirect ('/dashboard');
         } catch (\Exception  $exception) {
-            throw new \exception ($exception->getMessage());
+            // throw new \exception ($exception->getMessage());
+            return redirect()->back()->with('error', 'Une erreur s\'est produite: ' . $exception->getMessage());
         }
     }
      /*********************affichage des modifications*******************/
@@ -104,10 +115,10 @@ class UtilisateurController extends Controller
      /* pdf*/
      public function impression(){
         // Mijery ny province an'ny mpampiasa ankehitriny
-        $tribunal = Auth::user()->TPI;
+        $TPI = Auth::user()->TPI;
 
         // Mampihatra ny fitiliana amin'ny province
-        $listes = Utilisateurs::where('TPI', $tribunal)->get();
+        $listes = Utilisateurs::where('TPI', $TPI)->get();
 
         return view('pdf', ['listes' => $listes]);
      }
