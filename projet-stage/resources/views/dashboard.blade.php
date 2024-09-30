@@ -95,27 +95,21 @@
         <div>
           <div class="card-body">
             <div class="text-center">
-            <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-        <div class="image">
-          <i class="fas fa-user" ></i>
-        </div>
-        <div class="info">
-          <a href="{{route('profile.edit')}}" class="d-block">{{Auth::user()->name}}</a>
-        </div>
-      </div>
-    </div> 
-  </div>
+              <a href="{{ route('profile.edit') }}"><img src="image/user.png" alt="" class="brand-image img-circle elevation-3" style="opacity: .8; width:40%"></a>
+              
+            </div>
 
+            <a href="{{ route('profile.edit') }}"><h3 class="profile-username text-center">{{ Auth::user()->name }}</h3></a>
 
-        <form  method="Post" action="{{route('logout')}}">
-          @csrf
-          <x-dropdown-link :href="route('logout')"
-                            onclick="event.preventDefault(); 
-                            this.closest('form').submit();" class="btn btn-primary btn-block text-white">
+            <form method="POST" action="{{ route('logout') }}">
+            @csrf
+            <x-dropdown-link :href="route('logout')"
+              onclick="event.preventDefault();
+              this.closest('form').submit();" class="btn btn-primary btn-block text-white">
               <i class="zmdi zmdi-power"></i>
-              {{__('Se Déconnecter')}}
-          </x-dropdown-link>
-        </form>
+              {{ __('Déconnecter') }}
+            </x-dropdown-link>
+            </form>
           </div>
         </div>
      
