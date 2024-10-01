@@ -7,7 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Utilisateurs;
 use Illuminate\Support\Facades\DB;
-use Illuminate\support\Facades\Hash;
+use Illuminate\Support\Facades\Hash;
 
 class UtilisateurController extends Controller
 {
@@ -24,7 +24,6 @@ class UtilisateurController extends Controller
                 'Cour_appel' => ['required', 'string','max:255'],
                 'TPI' => ['required', 'string','max:255'],
                 'password' => ['required', 'confirmed'],
-                'usertype' => ['required']
             ], [
                 'immatricule' => 'Le champ Immatriculation est requis',
                 'name' => 'Le champ Nom est requis, doit être une chaîne de caractères et ne doit pas dépasser 255 caractères.',
@@ -44,7 +43,7 @@ class UtilisateurController extends Controller
             $user ->status =$request ->status;
             $user ->password =Hash::make($request->password);
             $user->usertype = 2;
-            dd($user);
+            // dd($user);
             $user ->save();
             return redirect ('/dashboard');
 
