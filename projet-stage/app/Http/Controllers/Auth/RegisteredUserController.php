@@ -54,11 +54,12 @@ class RegisteredUserController extends Controller
     
             Auth::login($user);
     
-            dd($request->all());
-            // return redirect(route('dashboard', absolute: false));
+            // dd($request->all());
+            return redirect(route('dashboard', absolute: false));   
         }catch(Exception $e){
-            // return redirect()->back()->withErrors(['error' => 'Une erreur s\'est produite : ' . $e->getMessage()]);
-            throw new Exception($e->getMessage());
+
+        return redirect()->back()->withErrors(['error' => 'Une erreur s\'est produite : ' . $e->getMessage()]);
+            // throw new Exception($e->getMessage());
         }
     }
 }

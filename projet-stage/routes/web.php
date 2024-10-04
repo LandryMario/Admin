@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -12,9 +13,14 @@ Route::get('/', function () {
     // return view('auth.login');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('/dashboard', [HomeController::class, 'liste'])->middleware(['auth', 'verified'])->name('dashboard');
+
+
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
+
 Route::get('/page', function () {
     return view('page');
 })->middleware(['auth', 'verified'])->name('page');
@@ -30,7 +36,7 @@ Route::get('/nouveau',[UtilisateurController::class,'index']);
 
 Route::post('/ajouter',[UtilisateurController::class,'ajout'])->name('nouveau');
 
-Route::get('/return_dashboard', [UtilisateurController::class, 'listeUtilisateur'])->name('dashboard');
+Route::get('/return_dashboard', [UtilisateurController::class, 'listeUtilisateur'])->name('dashboard_liste');
 
 Route::post('/modifier',[UtilisateurController::class,'modifications']);
 Route::get('/affichagemodifications/{id?}',[UtilisateurController::class,'dashboardmod']);

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Listes des Utilisateurs</title>
+  <title>Home</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -180,7 +180,6 @@
                             <th class="text-sm">Cour d'Appel</th>
                             <th class="text-sm">Tribunal</th>
                             <th class="text-sm">Status</th>
-                            <th class="text-sm">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -192,11 +191,6 @@
                             <td class="text-sm">{{$user->Cour_appel}}</td>
                             <td class="text-sm">{{$user->TPI}}</td>
                             <td class="text-sm">{{$user->status}}</td>
-                            
-                            <td class="text-sm">
-                                <a  href="affichagemodifications/{{$user->id}}" class="btn btn-success text-sm">Modifier</a>
-                                <!-- <a href="{{route('suppression',['id'=>$user->id])}}" class="btn btn-danger text-sm">Supprimer</a> -->
-                            </td>
                         </tr>
                         @endforeach
                         

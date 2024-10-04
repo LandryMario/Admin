@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Http\Request;
-use App\Models\Utilisateurs;
+use App\Models\Utilisateur;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
@@ -34,7 +34,7 @@ class UtilisateurController extends Controller
             ]);
     
             
-            $user = new Utilisateurs();
+            $user = new Utilisateur();
             $user ->immatricule =$request ->immatricule;
             $user->name =$request ->name;
             $user ->email =$request ->email;
@@ -42,10 +42,13 @@ class UtilisateurController extends Controller
             $user ->TPI =$request ->TPI;
             $user ->status =$request ->status;
             $user ->password =Hash::make($request->password);
-            $user->usertype = 2;
+            // $user->usertype = 2;
             // dd($user);
             $user ->save();
-            return redirect ('/dashboard');
+
+            $listes = Utilisateur::all();
+
+            return redirect()->route('dashboard')->with('listes', $listes);
 
         } catch (\Exception  $exception) {
             return redirect()->back()->with('error', 'Une erreur s\'est produite: ' . $exception->getMessage());
@@ -59,7 +62,9 @@ class UtilisateurController extends Controller
     $TPI = Auth::user()->TPI;
 
     // Mampihatra ny fitiliana amin'ny province
-    $listes = Utilisateurs::where('TPI', $TPI)->get();
+    // $listes = Utilisateur::where('TPI', $TPI)->get();
+
+    $listes = Utilisateur::all();
 
     return view('dashboard', ['listes' => $listes]);
     }
@@ -86,7 +91,7 @@ class UtilisateurController extends Controller
             ]);
 
 
-            $user = Utilisateurs::find($request->id);
+            $user = Utilisateur::find($request->id);
             if (!$user) {
                 return redirect()->back()->with('error', 'Utilisateur introuvable.');
             }
@@ -107,7 +112,7 @@ class UtilisateurController extends Controller
     }
      /*********************affichage des modifications*******************/
      public function dashboardmod($id){
-        $user= Utilisateurs::find($id);
+        $user= Utilisateur::find($id);
         return view ('modifier', compact('user'));
 
      }
@@ -117,14 +122,14 @@ class UtilisateurController extends Controller
         $TPI = Auth::user()->TPI;
 
         // Mampihatra ny fitiliana amin'ny province
-        $listes = Utilisateurs::where('TPI', $TPI)->get();
+        $listes = Utilisateur::where('TPI', $TPI)->get();
 
         return view('pdf', ['listes' => $listes]);
      }
 
      /* ***************suppression************/
      public function supprimer($id){
-        $sup= Utilisateurs::findOrFail($id);//Récupérer l'utilisarteur à supprimer//
+        $sup= Utilisateur::findOrFail($id);//Récupérer l'utilisarteur à supprimer//
         $sup->Delete();
         return redirect('/dashboard');
     }
