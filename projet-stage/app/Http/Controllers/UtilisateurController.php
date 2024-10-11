@@ -33,17 +33,22 @@ class UtilisateurController extends Controller
                 'password' => 'Le champ mot de passe est requis, mot de passe ne correspond pas, ne respecte pas les critères de sécurité.'
             ]);
     
-            
+            $tpi = DB::table('tpi')->where('nom', $request->TPI)->first();
+
+            if (!$tpi) {
+                return redirect()->back()->with('error', 'Le TPI spécifié n\'existe pas.');
+            }
+
+
             $user = new Utilisateur();
             $user ->immatricule =$request ->immatricule;
-            $user->name =$request ->name;
+            $user ->name =$request ->name;
             $user ->email =$request ->email;
             $user ->Cour_appel =$request ->Cour_appel;
             $user ->TPI =$request ->TPI;
             $user ->status =$request ->status;
+            $user ->tpi_id = $tpi->id;
             $user ->password =Hash::make($request->password);
-            // $user->usertype = 2;
-            // dd($user);
             $user ->save();
 
             $listes = Utilisateur::all();
@@ -58,13 +63,7 @@ class UtilisateurController extends Controller
     /***********************affichage des liste************************/
     public function listeUtilisateur()
     {
-    // Mijery ny province an'ny mpampiasa ankehitriny
-    $TPI = Auth::user()->TPI;
-
-    // Mampihatra ny fitiliana amin'ny province
-    // $listes = Utilisateur::where('TPI', $TPI)->get();
-
-    $listes = Utilisateur::all();
+        $listes = Utilisateur::all();
 
     return view('dashboard', ['listes' => $listes]);
     }
