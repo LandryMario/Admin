@@ -9,6 +9,7 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
@@ -38,28 +39,31 @@ class RegisteredUserController extends Controller
                 'TPI' =>['required','string','max:255'],
                 'password' => ['required', 'confirmed', Rules\Password::defaults()],
     
+            ],[
+            'name' => 'Le champ Nom est requis, doit être une chaîne de caractères et ne doit pas dépasser 255 caractères.',
+            'email' => 'Le champ email est requis, doit être une chaîne de caractères, en minuscules.',
+            'Cour_appel' => 'Le champ Cour d\'appel est requis, doit être une chaîne de caractères, ne peut pas dépasser 255 caractères',
+            'TPI' => 'Le champ TPI est requis, doit être une chaîne de caractères et ne doit pas dépasser 255 caractères.',
+            'password' => 'Le champ mot de passe est requis, mot de passe ne correspond pas, ne respecte pas les critères de sécurité.'
             ]);
     
+
             $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
                 'Cour_appel'=>$request->Cour_appel,
                 'TPI'=>$request->TPI,
                 'password' => Hash::make($request->password),
-                'usertype' => 1
-                
             ]);
     
             event(new Registered($user));
     
             Auth::login($user);
     
-            // dd($request->all());
             return redirect(route('dashboard', absolute: false));   
         }catch(Exception $e){
 
-        return redirect()->back()->withErrors(['error' => 'Une erreur s\'est produite : ' . $e->getMessage()]);
-            // throw new Exception($e->getMessage());
+        return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }
     }
 }

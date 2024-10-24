@@ -16,7 +16,7 @@ class HomeController extends Controller
 
     public function liste(){
         try{
-            $listes = DB::table('users')->where('usertype', 2)->where('tpi_id', Auth::user()->tpi_id)->get();
+            $listes = DB::table('users')->where('usertype', 2)->where('tpi_id', Auth::user()->id)->get();
 
             return view('dashboard')->with('listes', $listes);
 
