@@ -10,16 +10,11 @@ Use App\Http\Controllers\UtilisateurController;
 
 Route::get('/', function () {
     return view('welcome');
-    // return view('auth.login');
-});
+})->name('welcome');
 
 
 Route::get('/dashboard', [HomeController::class, 'liste'])->middleware(['auth', 'verified'])->name('dashboard');
 
-
-// Route::get('/dashboard', function () {
-//     return view('dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/page', function () {
     return view('page');

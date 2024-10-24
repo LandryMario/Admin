@@ -51,7 +51,8 @@ class UtilisateurController extends Controller
             $user ->password =Hash::make($request->password);
             $user ->save();
 
-            $listes = Utilisateur::all();
+            $tpi_id = Auth::user()->tpi_id;
+            $listes = Utilisateur::where('tpi_id', $tpi_id)->get();
 
             return redirect()->route('dashboard')->with('listes', $listes);
 
@@ -63,9 +64,10 @@ class UtilisateurController extends Controller
     /***********************affichage des liste************************/
     public function listeUtilisateur()
     {
-        $listes = Utilisateur::all();
+        $tpi_id = Auth::user()->tpi_id;
+        $listes = Utilisateur::where('tpi_id', $tpi_id)->get();
 
-    return view('dashboard', ['listes' => $listes]);
+    return view('dashboard')->with('listes', $listes);
     }
 
 
@@ -114,9 +116,9 @@ class UtilisateurController extends Controller
         $user= Utilisateur::find($id);
         return view ('modifier', compact('user'));
 
-     }
-     /* pdf*/
-     public function impression(){
+    }
+    /* pdf*/
+    public function impression(){
         // Mijery ny province an'ny mpampiasa ankehitriny
         $TPI = Auth::user()->TPI;
 
@@ -124,25 +126,23 @@ class UtilisateurController extends Controller
         $listes = Utilisateur::where('TPI', $TPI)->get();
 
         return view('pdf', ['listes' => $listes]);
-     }
+    }
 
-     /* ***************suppression************/
-     public function supprimer($id){
-        $sup= Utilisateur::findOrFail($id);//Récupérer l'utilisarteur à supprimer//
+    public function supprimer($id){
+        $sup= Utilisateur::findOrFail($id);
         $sup->Delete();
         return redirect('/dashboard');
     }
     
-    /* Statistique */ 
 
-public function page()
-{
-    $page = User::select('Cour_appel', DB::raw('count(*) as total'))
-        ->groupBy('Cour_appel')
-        ->get();
+    public function page()
+    {
+        $page = User::select('Cour_appel', DB::raw('count(*) as total'))
+            ->groupBy('Cour_appel')
+            ->get();
 
-    return view('page', ['page' => $page]);
-}
+        return view('page', ['page' => $page]);
+    }
 
 
 }   

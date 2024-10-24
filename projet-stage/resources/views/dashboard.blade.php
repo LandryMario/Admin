@@ -17,43 +17,20 @@
 <body class="hold-transition dark-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
 <div class="wrapper">
 
-  <!-- Navbar -->
   <nav class="main-header navbar navbar-expand navbar-dark">
-    <!-- Left navbar links -->
     <ul class="navbar-nav">
       <li class="nav-item">
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
-      
-      <li class="nav-item d-none d-sm-inline-block">
-      <span class="nav-link">Cour d'Appel:</span>
-      </li>
-      <li class="nav-item d-none d-sm-inline-block">
-      <span class="nav-link">{{Auth::user()->Cour_appel}}</span>
-      </li>
-      <li class="nav-item d-none d-sm-inline-block">
-      <span class="nav-link">Tribunal:</span>
-      </li>
-      <li class="nav-item d-none d-sm-inline-block">
-      <span class="nav-link">{{Auth::user()->TPI}}</span>
-      </li>
     </ul>
 
-    <!-- navbar right -->
     <ul class="navbar-nav ml-auto">
-      <!-- Navbar recherche -->
       <li class="nav-item">
-        <a class="nav-link" data-widget="navbar-search" href="#" role="button">
-          <i class="fas fa-search"></i>
-        </a>
         <div class="navbar-search-block">
           <form class="form-inline">
             <div class="input-group input-group-sm">
               <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
               <div class="input-group-append">
-                <button class="btn btn-navbar" type="submit">
-                  <i class="fas fa-search"></i>
-                </button>
                 <button class="btn btn-navbar" type="button" data-widget="navbar-search">
                   <i class="fas fa-times"></i>
                 </button>
@@ -69,13 +46,6 @@
           <i class="fas fa-expand-arrows-alt"></i>
         </a>
       </li>
-
-      <!-- code navbar pour changer des couleur   -->
-      <li class="nav-item">
-        <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
-          <i class="fas fa-th-large"></i>
-        </a>
-      </li>
     </ul>
   </nav>
   <!-- /.navbar -->
@@ -83,47 +53,47 @@
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="" class="brand-link">
-      <img src="image/logo.png" alt="" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-light">CO-JSAN</span>
-    </a>
+    <a href="#" class="brand-link">
+      <div style="margin-left: 20%">
+       <img src="{{ asset('Justice_logo.png') }}" alt=" Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+       <span class="brand-text font-weight-light">CO-JSAN</span>
+      </div>
+     </a>
 
     <!-- Sidebar -->
     <div class="sidebar">
-      <!-- Sidebar user panel (optional) -->
       <div class="Info text-center">
         <div>
           <div class="card-body">
             <div class="text-center">
-              <a href="{{ route('profile.edit') }}"><img src="image/user.png" alt="" class="brand-image img-circle elevation-3" style="opacity: .8; width:40%"></a>
-              
+              <a href="{{ route('profile.edit') }}"><img src="{{ asset('image/user.png') }}" alt="" class="brand-image img-circle elevation-3" style="opacity: .8; width:40%"></a>
             </div>
-
             <a href="{{ route('profile.edit') }}"><h3 class="profile-username text-center">{{ Auth::user()->name }}</h3></a>
-
+            <p class="text-muted text-center">{{ Auth::user()->TPI }}</p>
+            <ul class="list-group mb-3">
+              <li class="list-group-item">
+                <b>{{ Auth::user()->Cour_appel }}</b>
+              </li>
+            </ul> 
             <form method="POST" action="{{ route('logout') }}">
-            @csrf
-            <x-dropdown-link :href="route('logout')"
-              onclick="event.preventDefault();
-              this.closest('form').submit();" class="btn btn-primary btn-block text-white">
-              <i class="zmdi zmdi-power"></i>
-              {{ __('Déconnecter') }}
-            </x-dropdown-link>
+              @csrf
+              <x-dropdown-link :href="route('logout')"
+                onclick="event.preventDefault();
+                this.closest('form').submit();" class="btn btn-success btn-block text-white">
+                <i class="zmdi zmdi-power"></i>
+                {{ __('Déconnecter') }}
+              </x-dropdown-link>
             </form>
           </div>
         </div>
-     
-     
 
+        
       <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          <!-- Add icons to the links using the .nav-icon class
-            with font-awesome or any other icon font library -->
-          {{-- </ul> --}}
           <br>
           <li class="nav-item">
-            <a href="dashboard" class="nav-link active">
+            <a href="dashboard" class="nav-link btn btn-success">
               <i class="fas fa-users "></i>
               <p>
                 Listes des Utilisateurs
@@ -131,44 +101,27 @@
             </a>
           </li>
           <br>
-         
-          
         </ul>
       </nav>
-      <!-- /.sidebar-menu -->
     </div>
-    <!-- /.sidebar -->
   </aside>
 
   
-  <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
     <div class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0"> Tableau de bord</h1>
-            <br>
-    <a href="/nouveau" class="btn btn-info text-sm">Nouveau</a>
-          </div><!-- /.col -->
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="pdf">Exportation</a></li>
-              <li class="breadcrumb-item active">Listes des Utilisateurs</li>
-            </ol>
+            <a href="/nouveau" class="btn btn-success text-sm">Nouveau</a>
           </div>
-          <!-- /.col -->
-        </div><!-- /.row -->
-      </div><!-- /.container-fluid -->
+        </div>
+      </div>
     </div>
-    <!-- /.content-header -->
 
-    <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
-     <div class="row">
-     <div class="col-12">
+      <div class="row">
+      <div class="col-12">
         <div class="card">
             <div class="card-body">
                 <table class="table table-striped table-bordered rounded-md">
