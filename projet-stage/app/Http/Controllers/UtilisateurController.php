@@ -21,55 +21,32 @@ class UtilisateurController extends Controller
                 'immatricule' => ['required', 'string', 'max:255'],
                 'name' => ['required', 'string', 'max:255'],
                 'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-                'Cour_appel' => ['required', 'string','max:255'],
-                'TPI' => ['required', 'string','max:255'],
                 'password' => ['required', 'confirmed'],
             ], [
-                'immatricule' => 'Le champ Immatriculation est requis',
-                'name' => 'Le champ Nom est requis, doit être une chaîne de caractères et ne doit pas dépasser 255 caractères.',
-                'email' => 'Le champ email est requis, doit être une chaîne de caractères, en minuscules.',
-                'Cour_appel' => 'Le champ Cour d\'appel est requis, doit être une chaîne de caractères, ne peut pas dépasser 255 caractères',
-                'TPI' => 'Le champ TPI est requis, doit être une chaîne de caractères et ne doit pas dépasser 255 caractères.',
-                'password' => 'Le champ mot de passe est requis, mot de passe ne correspond pas, ne respecte pas les critères de sécurité.'
+                'immatricule.required' => 'Le champ Immatriculation est requis',
+                'name.required' => 'Le champ Nom est requis, doit être une chaîne de caractères et ne doit pas dépasser 255 caractères.',
+                'email.required' => 'Le champ email est requis, doit être une chaîne de caractères, en minuscules.',
+                'password.required' => 'Le champ mot de passe est requis, mot de passe ne correspond pas, ne respecte pas les critères de sécurité.'
             ]);
     
-            $tpi = DB::table('tpi')->where('nom', $request->TPI)->first();
-
-            if (!$tpi) {
-                return redirect()->back()->with('error', 'Le TPI spécifié n\'existe pas.');
-            }
-
-
+            $admin = Auth::user();
+    
             $user = new Utilisateur();
-            $user ->immatricule =$request ->immatricule;
-            $user ->name =$request ->name;
-            $user ->email =$request ->email;
-            $user ->Cour_appel =$request ->Cour_appel;
-            $user ->TPI =$request ->TPI;
-            $user ->status =$request ->status;
-            $user ->tpi_id = $tpi->id;
-            $user ->password =Hash::make($request->password);
-            $user ->save();
+            $user->immatricule = $request->immatricule;
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->Cour_appel = $admin->Cour_appel;
+            $user->TPI = $admin->TPI;
+            $user->status = $request->status;
+            $user->password = Hash::make($request->password);
+            $user->save();
 
-            $tpi_id = Auth::user()->tpi_id;
-            $listes = Utilisateur::where('tpi_id', $tpi_id)->get();
-
-            return redirect()->route('dashboard')->with('listes', $listes);
-
-        } catch (\Exception  $exception) {
+            return redirect()->route('dashboard');
+    
+        } catch (\Exception $exception) {
             return redirect()->back()->with('error', 'Une erreur s\'est produite: ' . $exception->getMessage());
         }
-
     }
-    /***********************affichage des liste************************/
-    public function listeUtilisateur()
-    {
-        $tpi_id = Auth::user()->tpi_id;
-        $listes = Utilisateur::where('tpi_id', $tpi_id)->get();
-
-    return view('dashboard')->with('listes', $listes);
-    }
-
 
     /**********************modifications des utilisateurs*************/
     
@@ -107,7 +84,6 @@ class UtilisateurController extends Controller
             $user ->save();
             return redirect ('/dashboard');
         } catch (\Exception  $exception) {
-            // throw new \exception ($exception->getMessage());
             return redirect()->back()->with('error', 'Une erreur s\'est produite: ' . $exception->getMessage());
         }
     }
@@ -116,9 +92,9 @@ class UtilisateurController extends Controller
         $user= Utilisateur::find($id);
         return view ('modifier', compact('user'));
 
-    }
-    /* pdf*/
-    public function impression(){
+     }
+     /* pdf*/
+     public function impression(){
         // Mijery ny province an'ny mpampiasa ankehitriny
         $TPI = Auth::user()->TPI;
 

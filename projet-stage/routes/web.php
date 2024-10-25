@@ -31,8 +31,6 @@ Route::get('/nouveau',[UtilisateurController::class,'index']);
 
 Route::post('/ajouter',[UtilisateurController::class,'ajout'])->name('nouveau');
 
-Route::get('/return_dashboard', [UtilisateurController::class, 'listeUtilisateur'])->name('dashboard_liste');
-
 Route::post('/modifier',[UtilisateurController::class,'modifications']);
 Route::get('/affichagemodifications/{id?}',[UtilisateurController::class,'dashboardmod']);
 Route::get('/pdf', [UtilisateurController::class,'impression']);
