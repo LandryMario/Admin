@@ -23,7 +23,7 @@ class HomeController extends Controller
             $listes = DB::table('users')
                         ->where('tpi_id', $tpi_id)
                         ->where('usertype', 2)
-                        ->get();
+                        ->paginate(20);
 
             return view('dashboard')->with('listes', $listes);
 

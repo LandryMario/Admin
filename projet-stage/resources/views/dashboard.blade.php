@@ -142,7 +142,6 @@
                             <th class="text-sm">Immatriculation</th>
                             <th class="text-sm">Nom</th>
                             <th class="text-sm">E-mail</th>
-                            <th class="text-sm">Status</th>
                             <th class="text-sm"></th>
                         </tr>
                     </thead>
@@ -152,7 +151,6 @@
                             <td class="text-sm">{{$user->immatricule}}</td>
                             <td class="text-sm">{{$user->name}}</td>
                             <td class="text-sm">{{$user->email}}</td>
-                            <td class="text-sm">{{$user->status}}</td>
                             <td class="text-sm d-flex justify-content-around">
                               <a href="{{ route('editPage', ['id' => $user->id]) }}" class="btn" style="background:rgb(255, 102, 0); color:white;">
                                 <i class="fas fa-edit"></i>
@@ -167,10 +165,16 @@
                             </td>
                         </tr>
                         @endforeach
-                        
-                      
                     </tbody> 
                 </table>
+                <div class="d-flex justify-content-between align-items-center">
+                  <div>
+                      Affichage de {{ $listes->firstItem() }} à {{ $listes->lastItem() }} utilisateurs
+                  </div>
+                  <div>
+                      {{ $listes->links('pagination::bootstrap-4') }}
+                  </div>
+              </div>
                 <br>
                     </div>
                   </div>

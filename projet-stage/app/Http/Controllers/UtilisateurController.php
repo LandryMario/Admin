@@ -111,13 +111,14 @@ class UtilisateurController extends Controller
     }
     
 
-    public function page()
+    public function statistique()
     {
-        $page = User::select('Cour_appel', DB::raw('count(*) as total'))
+        $page = DB::table('users')
             ->groupBy('Cour_appel')
-            ->get();
+            ->where('usertype',2)
+            ->count();
 
-        return view('page', ['page' => $page]);
+        return view('page');
     }
 
 
