@@ -124,15 +124,26 @@
       <div class="col-12">
         <div class="card">
             <div class="card-body">
+              @if(session('success'))
+                  <div class="alert alert-success">
+                      {{ session('success') }}
+                  </div>
+              @endif
+
+              @if(session('error'))
+                  <div class="alert alert-danger">
+                      {{ session('error') }}
+                  </div>
+              @endif
+
                 <table class="table table-striped table-bordered rounded-md">
                     <thead>
                         <tr>
                             <th class="text-sm">Immatriculation</th>
                             <th class="text-sm">Nom</th>
                             <th class="text-sm">E-mail</th>
-                            <th class="text-sm">Cour d'Appel</th>
-                            <th class="text-sm">Tribunal</th>
                             <th class="text-sm">Status</th>
+                            <th class="text-sm"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -141,9 +152,19 @@
                             <td class="text-sm">{{$user->immatricule}}</td>
                             <td class="text-sm">{{$user->name}}</td>
                             <td class="text-sm">{{$user->email}}</td>
-                            <td class="text-sm">{{$user->Cour_appel}}</td>
-                            <td class="text-sm">{{$user->TPI}}</td>
                             <td class="text-sm">{{$user->status}}</td>
+                            <td class="text-sm d-flex justify-content-around">
+                              <a href="{{ route('editPage', ['id' => $user->id]) }}" class="btn" style="background:rgb(255, 102, 0); color:white;">
+                                <i class="fas fa-edit"></i>
+                              </a> 
+                              <form action="{{ route('utilisateur.destroy', ['id' => $user->id]) }}" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?');">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </form>
+                            </td>
                         </tr>
                         @endforeach
                         

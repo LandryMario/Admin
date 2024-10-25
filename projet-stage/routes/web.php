@@ -31,10 +31,15 @@ Route::get('/nouveau',[UtilisateurController::class,'index']);
 
 Route::post('/ajouter',[UtilisateurController::class,'ajout'])->name('nouveau');
 
-Route::post('/modifier',[UtilisateurController::class,'modifications']);
+Route::get('/editPage/{id}', [UtilisateurController::class, 'editPage'])->name('editPage');
+
+Route::post('/edit', [UtilisateurController::class, 'edit'])->name('modification');
+
+Route::delete('/utilisateur/{id}', [UtilisateurController::class, 'destroy'])->name('utilisateur.destroy');
+
 Route::get('/affichagemodifications/{id?}',[UtilisateurController::class,'dashboardmod']);
 Route::get('/pdf', [UtilisateurController::class,'impression']);
-Route::get('/suppression/{id}',[UtilisateurController::class,'supprimer'])->name('suppression');
+
 /**********************statistique*********************************/
 Route::get('/page', [UtilisateurController::class,'page'])->name('page');
 

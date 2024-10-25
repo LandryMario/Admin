@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Middleware\utilisateurs;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -48,66 +49,65 @@ class UtilisateurController extends Controller
         }
     }
 
+    /*********************affichage des modifications*******************/
+    public function editPage($id)
+    {
+        $user = Utilisateur::findOrFail($id);
+        if (!$user) {
+            return redirect()->back()->with('error', 'Utilisateur introuvable.');
+        }
+        
+        return view('modifier')->with('user',$user);
+    }
+
     /**********************modifications des utilisateurs*************/
     
-    public function modifications(Request $request){
+    public function edit(Request $request){
         try {
             $request->validate([
                 'immatricule' => ['required', 'string', 'max:255'],
                 'name' => ['required', 'string', 'max:255'],
-                'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-                'Cour_appel' => ['required', 'string','max:255'],
-                'TPI' => ['required', 'string','max:255'],
-                'password' => ['required', 'confirmed'],
+                'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:users,email,' . $request->id],
             ],[
                 'immatricule' => 'Le champ Immatriculation est requis',
-                'name' => 'Le champ Nom est requis, doit être une chaîne de caractères et ne doit pas dépasser 255 caractères.',
-                'email' => 'Le champ email est requis, doit être une chaîne de caractères, en minuscules.',
-                'Cour_appel' => 'Le champ Cour d\'appel est requis, doit être une chaîne de caractères, ne peut pas dépasser 255 caractères',
-                'TPI' => 'Le champ TPI est requis, doit être une chaîne de caractères et ne doit pas dépasser 255 caractères.',
-                'password' => 'Le champ mot de passe est requis, mot de passe ne correspond pas, ne respecte pas les critères de sécurité.'
+                'name' => 'Le champ nom doit être une chaîne de caractères et ne doit pas dépasser 255 caractères.',
+                'email' => 'Le champ email doit être une chaîne de caractères, en minuscules.',
             ]);
 
-
-            $user = Utilisateur::find($request->id);
-            if (!$user) {
-                return redirect()->back()->with('error', 'Utilisateur introuvable.');
-            }
-
-            // $user =  Utilisateurs::find($request->id);
-            $user ->immatricule =$request ->immatricule;
-            $user->name =$request ->name;
-            $user ->email =$request ->email;
-            $user ->Cour_appel =$request ->Cour_appel;
-            $user ->TPI =$request ->TPI;
-            $user ->password =Hash::make($request->password);
-            $user ->save();
-            return redirect ('/dashboard');
-        } catch (\Exception  $exception) {
-            return redirect()->back()->with('error', 'Une erreur s\'est produite: ' . $exception->getMessage());
+            $user = Utilisateur::modifier(
+                $request->id,
+                $request->name,
+                $request->email,
+                $request->immatricule, 
+            );
+            return redirect('dashboard')->with('success', 'Informations de l\'utilisateur mises à jour avec succès.')->with('user', $user);
+        } catch (\Exception  $exception){
+            return redirect()->back()->with('error', $exception->getMessage());
         }
     }
-     /*********************affichage des modifications*******************/
-     public function dashboardmod($id){
-        $user= Utilisateur::find($id);
-        return view ('modifier', compact('user'));
-
-     }
-     /* pdf*/
-     public function impression(){
-        // Mijery ny province an'ny mpampiasa ankehitriny
+    
+    /*pdf*/
+    public function impression(){
         $TPI = Auth::user()->TPI;
 
-        // Mampihatra ny fitiliana amin'ny province
         $listes = Utilisateur::where('TPI', $TPI)->get();
 
         return view('pdf', ['listes' => $listes]);
     }
 
-    public function supprimer($id){
-        $sup= Utilisateur::findOrFail($id);
-        $sup->Delete();
-        return redirect('/dashboard');
+    public function destroy($id)
+    {
+        try {
+            $user = Utilisateur::find($id);
+            if (!$user) {
+                return redirect()->back()->with('error', 'Utilisateur introuvable.');
+            }
+    
+            $user->delete();
+            return redirect()->back()->with('success', 'Utilisateur supprimé avec succès.');
+        } catch (\Exception $exception) {
+            return redirect()->back()->with('error', $exception->getMessage());
+        }
     }
     
 

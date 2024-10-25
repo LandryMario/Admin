@@ -1,5 +1,3 @@
-@extends('header')
-@section('content')
 <x-app-layout>
     
     <div class="py-12">
@@ -19,5 +17,3 @@
         </div>
     </div>
 </x-app-layout>
-
-@endsection
